@@ -5,15 +5,14 @@ package kr.easw.lesson04;
  * <p>
  * 해당 문제에서는 Vehicle 클래스를 상속하는 새 클래스를 선언하는것과 getVehicle 클래스를 수정하는것만이 허용됩니다.
  * <p>
- * 이 문제는 다음의 조건을 따라야 합니다 :
- * - 자신만의 새 클래스를 생성합니다. 새 클래스는 Vehicle을 상속받아야 합니다.
- * - 구현된 Vehicle을 상속한 클래스를 getVehicle 메서드가 반환하도록 수정해야 합니다.
- * - (선택) 수행률이 100% 이상이여야 합니다. 수행률은 최대 틱까지 진행이 되었는지의 척도이며, 연료가 부족할 경우 틱이 중단됩니다.
- * - (선택) 최대한 높은 점수를 받아야 합니다.
+ * 이 문제는 다음의 조건을 따라야 합니다 : - 자신만의 새 클래스를 생성합니다. 새 클래스는 Vehicle을 상속받아야 합니다. - 구현된 Vehicle을 상속한 클래스를
+ * getVehicle 메서드가 반환하도록 수정해야 합니다. - (선택) 수행률이 100% 이상이여야 합니다. 수행률은 최대 틱까지 진행이 되었는지의 척도이며, 연료가 부족할
+ * 경우 틱이 중단됩니다. - (선택) 최대한 높은 점수를 받아야 합니다.
  * <p>
  * 문제가 너무 어려운 경우, 기본 조건만 충족해도 괜찮습니다.
  */
 public class ModularExample {
+
     public static int MAX_TICK = 5000;
 
     public static int INITIAL_FUEL = 500;
@@ -52,17 +51,38 @@ public class ModularExample {
         return (int) (fuelUsage * tickUsage * totalEnergy);
     }
 
+    static class ElectricCar extends Vehicle {
+
+        @Override
+        public Energy getEnergy() {
+            return new SunlightEnergy();
+        }
+
+        @Override
+        public VehicleType getType() {
+            return new Car();
+        }
+
+        @Override
+        public void onTick(int currentTick, int fuel) {
+
+        }
+    }
+
     /**
      * 해당 메서드는 다음과 같은 역할을 가져야 합니다 :
      * <p>
      * 상속하여 구현한 Vehicle 객체를 반환해야 합니다.
      */
     public static Vehicle getVehicle() {
-        throw new RuntimeException("이 코드 라인을 지우고, 이곳에서 작성하십시오.");
+        Vehicle metro = new ElectricCar();
+
+        return metro;
     }
 
     // 해당 클래스를 상속하여 구현하여야 합니다.
     static abstract class Vehicle {
+
         // Energy는 사용할 에너지를 뜻합니다.
         // CoalEnergy, HumanEnergy, SunlightEnergy 3개가 사용 가능합니다.
         public abstract Energy getEnergy();
@@ -78,12 +98,14 @@ public class ModularExample {
 
 
     static interface VehicleType {
+
         int getCost();
 
         int tickModify();
     }
 
     static class Bike implements VehicleType {
+
         @Override
         public int getCost() {
             return 0;
@@ -110,6 +132,7 @@ public class ModularExample {
 
 
     interface Energy {
+
         int createEnergy(int tick);
 
         int fuelUsage();
@@ -121,8 +144,9 @@ public class ModularExample {
 
         @Override
         public int createEnergy(int tick) {
-            if (tick % 5 == 0)
+            if (tick % 5 == 0) {
                 return 30;
+            }
             return 0;
         }
 
